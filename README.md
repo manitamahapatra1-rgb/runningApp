@@ -1,4 +1,5 @@
-# runningApp (working title - yeahh ik this isnt creative at all) 
+# runningApp 
+-(working title - yeahh ik this isnt creative at all) 
 An AI-personalized running training plan generator. Takes a runner's recent 
 race time, current weekly mileage, and goal race, then generates a periodized 
 training plan that adapts week-to-week based on real training data pulled 
