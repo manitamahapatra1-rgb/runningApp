@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from typing import Sequence
 
 from vdot_paces import RaceDistance, TrainingPaces, daniels_vdot, parse_race_time
-from training_phases import GoalDistance, WeekAssignment, assign_training_phases
+from mesocycle_phases import GoalDistance, WeekAssignment, assign_training_phases
 from weekly_mileage_progression import WeekMileage, generate_weekly_mileage_progression
 
 _DAY_ORDER = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
