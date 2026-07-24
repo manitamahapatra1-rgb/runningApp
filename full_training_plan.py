@@ -7,7 +7,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Sequence
 
-from mileage_logic import RaceDistance, TrainingPaces, daniels_vdot, parse_race_time
+from vdot_paces import RaceDistance, TrainingPaces, daniels_vdot, parse_race_time
 from training_phases import GoalDistance, WeekAssignment, assign_training_phases
 from weekly_mileage_progression import WeekMileage, generate_weekly_mileage_progression
 
