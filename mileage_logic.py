@@ -293,7 +293,7 @@ def daniels_vdot(
 
 if __name__ == "__main__":
     # Known benchmark: 18:30 5K → VDOT ~54–55, paces should align with Daniels tables.
-    time_s = parse_race_time(minutes=18, seconds=30)
+    time_s = parse_race_time(minutes=15, seconds=00)
     result = daniels_vdot(time_s, RaceDistance.FIVE_K)
 
     print(f"Race: 5K in { _format_pace(time_s) }")
