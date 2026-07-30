@@ -11,6 +11,9 @@ function App() {
     <>
       <section id="center">
         <div className="hero">
+          <div className="bg-emerald-500 text-white text-center py-3 font-semibold">
+          Tailwind is working
+          </div>
           <img src={heroImg} className="base" width="170" height="179" alt="" />
           <img src={reactLogo} className="framework" alt="React logo" />
           <img src={viteLogo} className="vite" alt="Vite logo" />
