@@ -1,0 +1,385 @@
+{
+  "plan": [
+    {
+      "week": 1,
+      "phase": "Base",
+      "total_mileage": 18.0,
+      "long_run_mileage": 4.5,
+      "workouts": [
+        {
+          "day": "Monday",
+          "workout_type": "Tempo",
+          "distance_miles": 3.24,
+          "pace": "Threshold 3:45/mi"
+        },
+        {
+          "day": "Tuesday",
+          "workout_type": "Easy Run",
+          "distance_miles": 3.42,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Thursday",
+          "workout_type": "Easy Run",
+          "distance_miles": 3.42,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Saturday",
+          "workout_type": "Easy Run",
+          "distance_miles": 3.42,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Sunday",
+          "workout_type": "Long Run",
+          "distance_miles": 4.5,
+          "pace": "Easy 5:11-4:19/mi"
+        }
+      ]
+    },
+    {
+      "week": 2,
+      "phase": "Base",
+      "total_mileage": 22.0,
+      "long_run_mileage": 4.5,
+      "workouts": [
+        {
+          "day": "Monday",
+          "workout_type": "Fartlek",
+          "distance_miles": 3.96,
+          "pace": "Surges 3:45 to 3:27/mi, recover at easy pace"
+        },
+        {
+          "day": "Tuesday",
+          "workout_type": "Easy Run",
+          "distance_miles": 4.51,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Thursday",
+          "workout_type": "Easy Run",
+          "distance_miles": 4.51,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Saturday",
+          "workout_type": "Easy Run",
+          "distance_miles": 4.52,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Sunday",
+          "workout_type": "Long Run",
+          "distance_miles": 4.5,
+          "pace": "Easy 5:11-4:19/mi"
+        }
+      ]
+    },
+    {
+      "week": 3,
+      "phase": "Base",
+      "total_mileage": 26.0,
+      "long_run_mileage": 5.5,
+      "workouts": [
+        {
+          "day": "Monday",
+          "workout_type": "Mile Reps",
+          "distance_miles": 4.68,
+          "pace": "Reps 3:27-3:09/mi"
+        },
+        {
+          "day": "Tuesday",
+          "workout_type": "Easy Run",
+          "distance_miles": 5.27,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Thursday",
+          "workout_type": "Easy Run",
+          "distance_miles": 5.27,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Saturday",
+          "workout_type": "Easy Run",
+          "distance_miles": 5.28,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Sunday",
+          "workout_type": "Long Run",
+          "distance_miles": 5.5,
+          "pace": "Easy 5:11-4:19/mi"
+        }
+      ]
+    },
+    {
+      "week": 4,
+      "phase": "Base",
+      "total_mileage": 30.0,
+      "long_run_mileage": 5.5,
+      "workouts": [
+        {
+          "day": "Monday",
+          "workout_type": "Tempo",
+          "distance_miles": 5.4,
+          "pace": "Threshold 3:45/mi"
+        },
+        {
+          "day": "Tuesday",
+          "workout_type": "Easy Run",
+          "distance_miles": 6.37,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Thursday",
+          "workout_type": "Easy Run",
+          "distance_miles": 6.37,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Saturday",
+          "workout_type": "Easy Run",
+          "distance_miles": 6.36,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Sunday",
+          "workout_type": "Long Run",
+          "distance_miles": 5.5,
+          "pace": "Easy 5:11-4:19/mi"
+        }
+      ]
+    },
+    {
+      "week": 5,
+      "phase": "Build",
+      "total_mileage": 23.4,
+      "long_run_mileage": 5.5,
+      "workouts": [
+        {
+          "day": "Monday",
+          "workout_type": "Fartlek",
+          "distance_miles": 1.64,
+          "pace": "Surges 3:45 to 3:27/mi, recover at easy pace"
+        },
+        {
+          "day": "Tuesday",
+          "workout_type": "Mile Reps",
+          "distance_miles": 1.64,
+          "pace": "Reps 3:27-3:09/mi"
+        },
+        {
+          "day": "Thursday",
+          "workout_type": "Easy Run",
+          "distance_miles": 7.31,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Saturday",
+          "workout_type": "Easy Run",
+          "distance_miles": 7.31,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Sunday",
+          "workout_type": "Long Run",
+          "distance_miles": 5.5,
+          "pace": "Easy 5:11-4:19/mi"
+        }
+      ]
+    },
+    {
+      "week": 6,
+      "phase": "Build",
+      "total_mileage": 27.4,
+      "long_run_mileage": 6.5,
+      "workouts": [
+        {
+          "day": "Monday",
+          "workout_type": "Tempo",
+          "distance_miles": 1.92,
+          "pace": "Threshold 3:45/mi"
+        },
+        {
+          "day": "Tuesday",
+          "workout_type": "Fartlek",
+          "distance_miles": 1.92,
+          "pace": "Surges 3:45 to 3:27/mi, recover at easy pace"
+        },
+        {
+          "day": "Thursday",
+          "workout_type": "Easy Run",
+          "distance_miles": 8.53,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Saturday",
+          "workout_type": "Easy Run",
+          "distance_miles": 8.53,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Sunday",
+          "workout_type": "Long Run",
+          "distance_miles": 6.5,
+          "pace": "Easy 5:11-4:19/mi"
+        }
+      ]
+    },
+    {
+      "week": 7,
+      "phase": "Build",
+      "total_mileage": 31.4,
+      "long_run_mileage": 6.5,
+      "workouts": [
+        {
+          "day": "Monday",
+          "workout_type": "Mile Reps",
+          "distance_miles": 2.2,
+          "pace": "Reps 3:27-3:09/mi"
+        },
+        {
+          "day": "Tuesday",
+          "workout_type": "Tempo",
+          "distance_miles": 2.2,
+          "pace": "Threshold 3:45/mi"
+        },
+        {
+          "day": "Thursday",
+          "workout_type": "Easy Run",
+          "distance_miles": 10.25,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Saturday",
+          "workout_type": "Easy Run",
+          "distance_miles": 10.25,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Sunday",
+          "workout_type": "Long Run",
+          "distance_miles": 6.5,
+          "pace": "Easy 5:11-4:19/mi"
+        }
+      ]
+    },
+    {
+      "week": 8,
+      "phase": "Peak",
+      "total_mileage": 35.4,
+      "long_run_mileage": 7.5,
+      "workouts": [
+        {
+          "day": "Monday",
+          "workout_type": "Fartlek",
+          "distance_miles": 2.3,
+          "pace": "Surges 3:45 to 3:27/mi, recover at easy pace"
+        },
+        {
+          "day": "Tuesday",
+          "workout_type": "Mile Reps",
+          "distance_miles": 2.3,
+          "pace": "Reps 3:27-3:09/mi"
+        },
+        {
+          "day": "Thursday",
+          "workout_type": "Easy Run",
+          "distance_miles": 11.65,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Saturday",
+          "workout_type": "Easy Run",
+          "distance_miles": 11.65,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Sunday",
+          "workout_type": "Long Run",
+          "distance_miles": 7.5,
+          "pace": "Marathon 3:51/mi"
+        }
+      ]
+    },
+    {
+      "week": 9,
+      "phase": "Peak",
+      "total_mileage": 27.61,
+      "long_run_mileage": 7.5,
+      "workouts": [
+        {
+          "day": "Monday",
+          "workout_type": "Tempo",
+          "distance_miles": 1.79,
+          "pace": "Threshold 3:45/mi"
+        },
+        {
+          "day": "Tuesday",
+          "workout_type": "Fartlek",
+          "distance_miles": 1.8,
+          "pace": "Surges 3:45 to 3:27/mi, recover at easy pace"
+        },
+        {
+          "day": "Thursday",
+          "workout_type": "Easy Run",
+          "distance_miles": 8.26,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Saturday",
+          "workout_type": "Easy Run",
+          "distance_miles": 8.26,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Sunday",
+          "workout_type": "Long Run",
+          "distance_miles": 7.5,
+          "pace": "Marathon 3:51/mi"
+        }
+      ]
+    },
+    {
+      "week": 10,
+      "phase": "Taper",
+      "total_mileage": 23.01,
+      "long_run_mileage": 6.9,
+      "workouts": [
+        {
+          "day": "Monday",
+          "workout_type": "Mile Reps",
+          "distance_miles": 2.3,
+          "pace": "Reps 3:27-3:09/mi"
+        },
+        {
+          "day": "Tuesday",
+          "workout_type": "Easy Run",
+          "distance_miles": 4.6,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Thursday",
+          "workout_type": "Easy Run",
+          "distance_miles": 4.6,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Saturday",
+          "workout_type": "Easy Run",
+          "distance_miles": 4.61,
+          "pace": "Easy 5:11-4:19/mi"
+        },
+        {
+          "day": "Sunday",
+          "workout_type": "Long Run",
+          "distance_miles": 6.9,
+          "pace": "Easy 5:11-4:19/mi"
+        }
+      ]
+    }
+  ],
+  "id": 2
+}
