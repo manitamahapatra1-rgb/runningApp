@@ -5,7 +5,8 @@ from __future__ import annotations
 import json
 
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, Field
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field, field_validator, model_validator
 from sqlalchemy import Float, Integer, String, Text, create_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
 
@@ -15,6 +16,14 @@ from vdot_paces import daniels_vdot
 from weekly_mileage_progression import generate_weekly_mileage_progression
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 DATABASE_URL = "sqlite:///./training_plans.db"
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(bind=engine)
@@ -41,10 +50,36 @@ Base.metadata.create_all(bind=engine)
 
 class GeneratePlanRequest(BaseModel):
     race_time: float = Field(gt=0, description="Race time in seconds.")
-    race_distance: str
+    race_distance: str = Field(description="One of: 5k, 10k, half_marathon, marathon.")
     weeks_until_race: int = Field(ge=1)
     starting_weekly_mileage: float = Field(gt=0)
     mileage_cap: float = Field(gt=0)
+
+    @field_validator("race_distance")
+    @classmethod
+    def normalize_race_distance(cls, value: str) -> str:
+        key = value.strip().lower().replace("-", "_").replace(" ", "_")
+        aliases = {
+            "5k": "5k",
+            "5_k": "5k",
+            "10k": "10k",
+            "10_k": "10k",
+            "half": "half_marathon",
+            "half_marathon": "half_marathon",
+            "hm": "half_marathon",
+            "marathon": "marathon",
+            "full": "marathon",
+            "full_marathon": "marathon",
+        }
+        if key not in aliases:
+            raise ValueError("race_distance must be one of: 5k, 10k, half_marathon, marathon")
+        return aliases[key]
+
+    @model_validator(mode="after")
+    def validate_mileage_relationship(self):
+        if self.mileage_cap < self.starting_weekly_mileage:
+            raise ValueError("mileage_cap must be greater than or equal to starting_weekly_mileage")
+        return self
 
 
 class WorkoutResponse(BaseModel):
@@ -72,18 +107,21 @@ class StoredPlanResponse(GeneratePlanResponse):
 
 @app.post("/api/generate-plan", response_model=StoredPlanResponse)
 def generate_plan(payload: GeneratePlanRequest) -> StoredPlanResponse:
-    vdot_result = daniels_vdot(payload.race_time, payload.race_distance)
-    mesocycle_plan = assign_training_phases(payload.weeks_until_race, payload.race_distance)
-    mileage_plan = generate_weekly_mileage_progression(
-        starting_weekly_mileage=payload.starting_weekly_mileage,
-        weekly_mileage_cap=payload.mileage_cap,
-        total_weeks=payload.weeks_until_race,
-    )
-    full_plan = assemble_training_plan(
-        phase_weeks=mesocycle_plan.weeks,
-        mileage_weeks=mileage_plan,
-        training_paces=vdot_result.paces,
-    )
+    try:
+        vdot_result = daniels_vdot(payload.race_time, payload.race_distance)
+        mesocycle_plan = assign_training_phases(payload.weeks_until_race, payload.race_distance)
+        mileage_plan = generate_weekly_mileage_progression(
+            starting_weekly_mileage=payload.starting_weekly_mileage,
+            weekly_mileage_cap=payload.mileage_cap,
+            total_weeks=payload.weeks_until_race,
+        )
+        full_plan = assemble_training_plan(
+            phase_weeks=mesocycle_plan.weeks,
+            mileage_weeks=mileage_plan,
+            training_paces=vdot_result.paces,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
 
     generated_response = GeneratePlanResponse(
         plan=[
