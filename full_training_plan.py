@@ -179,6 +179,25 @@ def assemble_training_plan(
             quality_types.append(_QUALITY_ROTATION[rotation_index % len(_QUALITY_ROTATION)])
             rotation_index += 1
 
+        easy_days = [day for day in run_days if day not in {"Sunday", *quality_days}]
+
+        # Rule 2 target total quality mileage (per phase).
+        quality_total_target = total_mileage * _quality_distance_factor(phase)
+
+        # Rule 3 allocation with cap guarantees:
+        # - every quality/easy run <= 80% of long run
+        # - try bounded long-run increase (to ~35%) first
+        # - if still infeasible, overflow is absorbed by long run
+        long_run_mileage, quality_distances, easy_distances = _allocate_capped_week_distances(
+            total_mileage=total_mileage,
+            initial_long_run_mileage=long_run_mileage,
+            quality_total_target=quality_total_target,
+            quality_count=quality_count,
+            easy_day_count=len(easy_days),
+            per_non_long_cap_ratio=0.80,
+            bounded_long_run_ratio=0.35,
+        )
+
         workouts_by_day: dict[str, DayWorkout] = {}
 
         # Rule 1: Long run on a weekend day, with phase-aware pace choice.
@@ -196,8 +215,6 @@ def assemble_training_plan(
         )
 
         # Rule 2: Quality workout frequency by phase, rotating workout types.
-        quality_total_target = total_mileage * _quality_distance_factor(phase)
-        quality_distances = _split_distance(quality_total_target, quality_count)
         for quality_day, quality_type, quality_distance in zip(quality_days, quality_types, quality_distances):
             if quality_type == "Tempo":
                 pace = _tempo_pace_label(training_paces)
@@ -213,11 +230,6 @@ def assemble_training_plan(
             )
 
         # Rule 3: Fill remaining run days with Easy mileage from remaining volume.
-        used_mileage = long_run_mileage + sum(quality_distances)
-        remaining_mileage = max(0.0, total_mileage - used_mileage)
-        easy_days = [day for day in run_days if day not in workouts_by_day]
-        easy_distances = _split_distance(remaining_mileage, len(easy_days))
-
         for easy_day, easy_distance in zip(easy_days, easy_distances):
             workouts_by_day[easy_day] = DayWorkout(
                 day=easy_day,
@@ -227,6 +239,17 @@ def assemble_training_plan(
             )
 
         ordered_workouts = tuple(workouts_by_day[day] for day in _DAY_ORDER if day in workouts_by_day)
+
+        # Guarantee check (easy to test from __main__): long run is always >= every other single run in the week.
+        max_non_long = max(
+            (workout.distance_miles for workout in ordered_workouts if workout.workout_type != "Long Run"),
+            default=0.0,
+        )
+        if long_run_mileage + 1e-9 < max_non_long:
+            raise ValueError(
+                "Invariant violation: long run is always >= every other single run in the week."
+            )
+
         plan.append(
             PlannedWeek(
                 week=index,
@@ -278,3 +301,71 @@ if __name__ == "__main__":
                 f"{workout.distance_miles:5.2f} mi | {workout.pace}"
             )
         print()
+
+
+def _allocate_capped_week_distances(
+    *,
+    total_mileage: float,
+    initial_long_run_mileage: float,
+    quality_total_target: float,
+    quality_count: int,
+    easy_day_count: int,
+    per_non_long_cap_ratio: float = 0.80,
+    bounded_long_run_ratio: float = 0.35,
+) -> tuple[float, list[float], list[float]]:
+    """
+    Allocate long/quality/easy distances with caps:
+    - Each quality/easy run <= per_non_long_cap_ratio * long_run_mileage.
+    - Prefer increasing long run only up to bounded_long_run_ratio * total_mileage to make
+      easy-day even split feasible under cap.
+    - If still infeasible, cap easy days and push true overflow onto long run.
+    """
+    long_run_mileage = round(initial_long_run_mileage, 2)
+    max_bounded_long_run = round(total_mileage * bounded_long_run_ratio, 2)
+    quality_targets = _split_distance(quality_total_target, quality_count)
+
+    def evaluate(candidate_long_run: float) -> tuple[list[float], list[float], bool, float]:
+        cap = candidate_long_run * per_non_long_cap_ratio
+        capped_quality = [round(min(distance, cap), 2) for distance in quality_targets]
+
+        remaining_mileage = max(0.0, round(total_mileage - candidate_long_run - sum(capped_quality), 2))
+        evenly_split_easy = _split_distance(remaining_mileage, easy_day_count)
+
+        easy_within_cap = all(distance <= cap + 1e-9 for distance in evenly_split_easy)
+        if easy_within_cap:
+            return capped_quality, evenly_split_easy, True, 0.0
+
+        capped_easy = [round(cap, 2) for _ in range(easy_day_count)]
+        overflow = max(0.0, round(remaining_mileage - sum(capped_easy), 2))
+        return capped_quality, capped_easy, False, overflow
+
+    quality_distances, easy_distances, easy_feasible, overflow_to_long = evaluate(long_run_mileage)
+
+    if not easy_feasible and easy_day_count > 0 and long_run_mileage < max_bounded_long_run:
+        start_cents = int(round(long_run_mileage * 100))
+        max_cents = int(round(max_bounded_long_run * 100))
+
+        found_feasible = False
+        for cents in range(start_cents, max_cents + 1):
+            candidate_long = round(cents / 100.0, 2)
+            candidate_quality, candidate_easy, candidate_feasible, candidate_overflow = evaluate(candidate_long)
+            if candidate_feasible:
+                long_run_mileage = candidate_long
+                quality_distances = candidate_quality
+                easy_distances = candidate_easy
+                overflow_to_long = candidate_overflow
+                found_feasible = True
+                break
+
+        if not found_feasible:
+            long_run_mileage = max_bounded_long_run
+            quality_distances, easy_distances, _, overflow_to_long = evaluate(long_run_mileage)
+
+    if overflow_to_long > 0:
+        # Edge case: even at bounded long-run ratio, easy-day cap is still infeasible.
+        # Preserve mileage by absorbing overflow into the long run (may exceed 35%).
+        long_run_mileage = round(long_run_mileage + overflow_to_long, 2)
+
+    return long_run_mileage, quality_distances, easy_distances
+
+
