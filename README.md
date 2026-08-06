@@ -1,5 +1,6 @@
-# runningApp 
--(working title - yeahh ik this isnt creative at all) 
+# runningApp
+*(working title — yeah, I know this isn't creative at all)*
+
 An AI-personalized running training plan generator. Takes a runner's recent 
 race time, current weekly mileage, and goal race, then generates a periodized 
 training plan that adapts week-to-week based on real training data pulled 
@@ -17,17 +18,40 @@ the final call on any change to mileage or workouts.
 
 ## Tech stack
 
-- **Backend:** Python, FastAPI
-- **Frontend:** React, Tailwind
-- **AI orchestration:** LangChain / LangGraph
-- **Data source:** Strava API (OAuth, automatic activity sync)
-- **Database:** SQLite (dev) → PostgreSQL/Supabase (prod)
+- **Backend:** Python, FastAPI, SQLAlchemy
+- **Frontend:** React (Vite), Tailwind CSS
+- **AI orchestration (planned):** LangChain / LangGraph
+- **Data source (planned):** Strava API (OAuth, automatic activity sync)
+- **Database:** SQLite (dev) → PostgreSQL/Supabase (prod, planned)
 
 ## Status
 
-Phase 1 — building the core periodization engine (plain Python, no 
-framework yet).
+🚧 In progress — core pipeline is functional end-to-end:
+- ✅ Periodization engine (VDOT paces, mesocycle phasing, adaptive mileage 
+  progression, day-by-day plan assembly)
+- ✅ FastAPI backend with SQLite persistence (`POST /api/generate-plan`, 
+  `GET /api/plan/{id}`)
+- ✅ React frontend rendering a live-generated plan as a color-coded, 
+  phase-aware weekly calendar
+- ⬜ User input form (currently uses fixed test parameters)
+- ⬜ Strava OAuth integration
+- ⬜ LangChain/LangGraph adaptive layer for pain/feedback-driven plan adjustments
 
 ## Setup
 
-_Coming soon — nothing runnable yet._
+**Backend:**
+```bash
+python -m venv venv
+.\venv\Scripts\Activate.ps1  # Windows
+pip install fastapi uvicorn sqlalchemy
+uvicorn app:app --reload
+```
+Runs at `http://localhost:8000`.
+
+**Frontend:**
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Runs at `http://localhost:5173`. Requires the backend running simultaneously.
